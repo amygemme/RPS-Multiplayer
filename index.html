@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RPS Game</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- Link from Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+
+
+    <h1> Rock Paper Scissor </h1>
+    <div id="wrapper">
+    <div id="player">
+        <input id="name" type="text" placeholder="Enter your name">
+    </div>
+    <div id="buttons">
+    <button class="choice" id="rock">Rock</button>
+    <button class="choice" id="scissor"> Scissor</button>
+    <button class="choice" id="paper"> Paper</button>
+    </div>
+
+    <!--Why did I call this lizard? -->
+    <div id="lizard">
+        <img
+            url="https://vignette.wikia.nocookie.net/bigbangtheory/images/7/7d/RPSLS.png/revision/latest?cb=20120822205915">
+    </div>
+</div> <!--End Wrapper-->
+
+
+    <!-- JQUERY with AJAX  (copied fronm last homework) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Link to Javascript file-->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
