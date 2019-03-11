@@ -47,7 +47,7 @@ $("#rock").on("click",function(){
 
 
 // Firebase watcher + initial loader HINT: .on("value")
-database.ref("/" + name).on("value", function(snapshot) {
+database.ref().on("value", function(snapshot) {
 
     // Log everything that's coming out of snapshot
    console.log(snapshot.val());
