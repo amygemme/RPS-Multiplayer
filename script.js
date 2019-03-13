@@ -18,7 +18,7 @@ firebase.initializeApp(config);
 
 let database = firebase.database();
 
-
+resetplayers();
 
 
 // Click on Rock 

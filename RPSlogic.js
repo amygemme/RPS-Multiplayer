@@ -15,8 +15,8 @@ firebase.initializeApp(config);
 
 let database = firebase.database();
 
-//  resetplayers();
-//  resetplays();
+//   resetplayers();
+//   resetplays();
 
 // End Database Setup
 
@@ -29,59 +29,61 @@ $(".choice").attr('disabled', true);
 
 
 // Set up the initial players as player1 and player2
-checkPlayers(); 
+checkPlayers();
 
-function checkPlayers(){
-    database.ref().once('value').then(function(snapshot){
-    var datanow = snapshot.val();
-    console.log(datanow.user1.player);
-    console.log(datanow.user2.player);  
-            // both players are null
-    if(datanow.user1.player.trim()=='' && datanow.user2.player.trim()==''){
-        // $("#1").attr('disabled', true);
-        alert("chose player 1 or 2 to get started")
-    }
+function checkPlayers() {
+    database.ref().once('value').then(function (snapshot) {
+        var datanow = snapshot.val();
+        console.log(datanow.user1.player);
+        console.log(datanow.user2.player);
+        // both players are null
+        if (datanow.user1.player.trim() == '' && datanow.user2.player.trim() == '') {
+            // $("#1").attr('disabled', true);
+            alert("chose player 1 or 2 to get started")
+        }
         // player 2 is null player 1 is taken
-    else if(datanow.user1.player.trim()=='' && !datanow.user2.player.trim()==''){
-        console.log("auto set to player 2");
-        $("#2").attr('disabled', true);
-        $("#1").attr('checked', true);
-        alert("you are player 1, please make your choice");
-        database.ref("/user1/player").set("player1");
-        $(".choice").attr('disabled', false);
-        player =1;
-    }
+        else if (datanow.user1.player.trim() == '' && !datanow.user2.player.trim() == '') {
+            console.log("auto set to player 2");
+            $("#2").attr('disabled', true);
+            $("#1").attr('checked', true);
+            alert("you are player 1, please make your choice");
+            database.ref("/user1/player").set("player1");
+            $(".choice").attr('disabled', false);
+            player = 1;
+        }
         // player 1 is null and player 2 is taken
-    else if(!datanow.user1.player.trim()=='' && datanow.user2.player.trim()==''){
-        console.log("auto set to player 1");
-        $("#1").attr('disabled', true);
-        $("#2").attr('checked', true);
-        alert("you are player 2, please make your choice");
-        database.ref("/user2/player").set("player2");
-        $(".choice").attr('disabled', false);
-        player =2;
+        else if (!datanow.user1.player.trim() == '' && datanow.user2.player.trim() == '') {
+            console.log("auto set to player 1");
+            $("#1").attr('disabled', true);
+            $("#2").attr('checked', true);
+            alert("you are player 2, please make your choice");
+            database.ref("/user2/player").set("player2");
+            $(".choice").attr('disabled', false);
+            player = 2;
 
-    }
+        }
         // both players are taken
-    else if(!datanow.user1.player.trim()=='' && !datanow.user2.player.trim()==''){
-        alert("please come back later, we got 2 players already")
-        $("#1").attr('disabled', true);
-        $("#2").attr('disabled', true);
-    }
-});
+        else if (!datanow.user1.player.trim() == '' && !datanow.user2.player.trim() == '') {
+            alert("please come back later, we got 2 players already")
+            $("#1").attr('disabled', true);
+            $("#2").attr('disabled', true);
+        }
+    });
+    return datanow;
 } // End check players Function
+console.log(datanow)
 
 // First player can chose to be player 1 or 2 and we listen for that event here
 var player = 0;
 
-$("#1").change(function(){
+$("#1").change(function () {
     database.ref("user1/player").set("player1");
     database.ref("user2/player").set("");
     $(".choice").attr('disabled', false);
     player = 1;
 });
 
-$("#2").change(function(){
+$("#2").change(function () {
     database.ref("user1/player").set("");
     database.ref("user2/player").set("player2");
     $(".choice").attr('disabled', false);
@@ -92,20 +94,20 @@ $("#2").change(function(){
 
 
 //This funtion will reset the plays in the case of a tie 
-function resetplays(){
-    database.ref("/user2/play").set("");  
-    database.ref("/user1/play").set("")       
+function resetplays() {
+    database.ref("/user2/play").set("");
+    database.ref("/user1/play").set("")
 }
 
 // not sure if we will need this function
-function resetplayers(){
+function resetplayers() {
     database.ref("user1/player").set("");
     database.ref("user2/player").set("");
 }
 
 
 // When Rock is selected
-$("#rock").on("click",function (){
+$("#rock").on("click", function () {
     alert("button works");
     console.log(player);
     database.ref("user" + player + "/play").set("rock");
@@ -114,7 +116,7 @@ $("#rock").on("click",function (){
 
 
 // When Paper is selected
-$("#paper").on("click",function (){
+$("#paper").on("click", function () {
     alert("button works");
     console.log(player);
     database.ref("user" + player + "/play").set("paper");
@@ -122,25 +124,34 @@ $("#paper").on("click",function (){
 });
 
 // When Scissor is selected
-$("#scissor").on("click",function (){
+$("#scissor").on("click", function () {
     alert("button works");
     console.log(player);
     database.ref("user" + player + "/play").set("scissor");
     scoregame();
 });
 
-function scoregame(){
-database.ref().once('value').then(function(snapshot){
-    var datanow = snapshot.val();
-    if(!datanow.user1.play=='' && !datanow.user2.play==''){
-    console.log(datanow);
-    console.log(datanow.user1.play);
-    console.log(datanow.user2.play);
-    console.log(datanow.user1.player);
-    console.log(datanow.user2.player);
+
+
+
+function scoregame() {
+    database.ref().once('value').then(function (snapshot) {
+       var  datanow = snapshot.val();
+        console.log(datanow);  
+       // var c = snapshot.child("name/first").exists(); // true
+        if(datanow.user1("play").exist() && datanow.user2("play").exist()){
+            if (datanow.user1.play === datanow.user2.play) {
+                alert("you tied, chose again")
+                resetplays();
+                }
+            else if (datanow.user1.play === "rock") {
+                    console.log("user 1 picked rock")
+                    }
+            else if (datanow.user2.play === "paper") {
+                    console.log("user 1 picked paper")
+                    }
+            else if (datanow.user2.play === "scissor") {
+                    }
+                }
+        })
     }
-    else{
-        scoregame();
-    }
-});
-}
